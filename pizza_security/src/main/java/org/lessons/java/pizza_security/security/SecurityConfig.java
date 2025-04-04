@@ -23,5 +23,11 @@ public class SecurityConfig {
                 .requestMatchers("/ingredienti", "/ingredienti/**").hasAuthority("ADMIN")
                 .requestMatchers("/pizze", "/pizze/**").hasAnyAuthority("USER", "ADMIN").requestMatchers("/**")
                 .permitAll().and().formLogin().and().logout().and().exceptionHandling();
+
+        return httpSecurity.build();
     }
+
+    // elemento userDetails
+
+    // elemento passwordEncoder
 }
