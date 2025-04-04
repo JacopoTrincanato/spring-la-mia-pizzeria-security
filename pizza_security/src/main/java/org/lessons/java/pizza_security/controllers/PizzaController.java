@@ -5,9 +5,9 @@ import java.util.List;
 import org.lessons.java.pizza_security.models.OffertaSpeciale;
 import org.lessons.java.pizza_security.models.Pizza;
 import org.lessons.java.pizza_security.repositories.IngredientiRepository;
-//import org.lessons.java.pizza_security.repositories.OffertaSpecialeRepository;
 import org.lessons.java.pizza_security.services.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,11 +34,15 @@ public class PizzaController {
 
     // creo la rotta index
     @GetMapping
-    public String index(Model model) {
+    public String index(Authentication authentication, Model model) {
+
         // creo la lista di pizze
         List<Pizza> pizze = pizzaService.findPizze();
 
         model.addAttribute("pizze", pizze);
+
+        // aggiungo l'attributo di verifica
+        model.addAttribute("username", authentication.getName());
 
         return "pizze/index";
     }
