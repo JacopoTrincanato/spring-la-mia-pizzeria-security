@@ -1,9 +1,15 @@
 package org.lessons.java.pizza_security.models;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -22,6 +28,11 @@ public class User {
     @NotBlank(message = "Il campo password non può essere vuoto o null")
     @Size(min = 8, max = 30, message = "la password deve essere lunga almeno 8 caratteri e non più di 30")
     private String password;
+
+    // implemento la relazione ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "ruolo_utente", joinColumns = @JoinColumn(name = "utente_id"), inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
+    private Set<Ruolo> ruoli;
 
     public Integer getId() {
         return this.id;
@@ -45,6 +56,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Ruolo> getRuoli() {
+        return this.ruoli;
+    }
+
+    public void setRuoli(Set<Ruolo> ruoli) {
+        this.ruoli = ruoli;
     }
 
 }
