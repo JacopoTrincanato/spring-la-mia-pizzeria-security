@@ -28,19 +28,22 @@
                         <div class="d-flex justify-content-between">
 
                             <!--Inserisco i fragment per i bottoni della card-->
+
                             <div th:replace="~{fragments/resources :: cardButtons('/pizze/' + *{id}, 'Leggi di più')}">
                             </div>
 
-                            <div th:replace="~{fragments/resources :: cardButtons('/pizze/edit/' + *{id}, 'Modifica')}">
+                            <!--vieto l'accesso a chi non ha il ruolo di ADMIN-->
+                            <div sec:authorize="hasAuthority('ADMIN')"
+                                th:replace="~{fragments/resources :: cardButtons('/pizze/edit/' + *{id}, 'Modifica')}">
                             </div>
 
-                            <div
+                            <div sec:authorize="hasAuthority('ADMIN')"
                                 th:replace="~{fragments/resources :: cardButtons('/pizze/' + *{id} + '/offerte', 'Offerte')}">
                             </div>
 
                             <!-- Bottone che triggera la modale -->
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                th:data-bs-target="'#modal-' + *{id}">
+                            <button type="button" sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger"
+                                data-bs-toggle="modal" th:data-bs-target="'#modal-' + *{id}">
                                 x
                             </button>
 
