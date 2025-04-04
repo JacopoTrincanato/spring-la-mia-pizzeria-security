@@ -3,8 +3,11 @@ package org.lessons.java.pizza_security.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -28,6 +31,33 @@ public class SecurityConfig {
     }
 
     // elemento userDetails
+    @Bean
+    @SuppressWarnings("deprecation")
+    DaoAuthenticationProvider authenticationProvider() {
 
-    // elemento passwordEncoder
+        // creo un nuovo Provider di autenticazione
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+
+        // recupero gli utenti via username tramite lo userDetailsService impostando il
+        // servizio da utilizzare
+        authenticationProvider.setUserDetailsService(userDetailsService());
+
+        // elemento passwordEncoder
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+
+        // ritorno il provider
+        return authenticationProvider;
+    }
+
+    // creo i due Bean userDetailsService e passwordEncoder
+    @Bean
+    DatabaseUserDetailsService userDetailsService() {
+        return new DatabaseUserDetailsService();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
 }
