@@ -28,7 +28,7 @@ public class DatabaseUserDetailsService implements UserDetailsService {
         }
 
         // ritorna un nuovo utente
-        return "";
+        return new DatabaseUserDetails(userAttempt.get());
 
     }
 }
