@@ -25,7 +25,8 @@ public class SecurityConfig {
                 .requestMatchers("/offerte_speciali", "/offerte_speciali/**").hasAuthority("ADMIN")
                 .requestMatchers("/ingredienti", "/ingredienti/**").hasAuthority("ADMIN")
                 .requestMatchers("/pizze", "/pizze/**").hasAnyAuthority("USER", "ADMIN").requestMatchers("/**")
-                .permitAll().and().formLogin().and().logout().and().exceptionHandling();
+                .permitAll().and().formLogin().defaultSuccessUrl("/pizze", true).and().logout().and()
+                .exceptionHandling();
 
         return httpSecurity.build();
     }
